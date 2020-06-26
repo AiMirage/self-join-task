@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            baseUrl: "http://127.0.0.1:8000/",
+            baseUrl: "http://127.0.0.1:8000/api/",
             error: null,
             message: null,
             isLoaded: false,
@@ -17,7 +17,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        let url = this.state.baseUrl.concat("0");
+        let url = this.state.baseUrl.concat("1");
         fetch(url)
             .then(res => res.json())
             .then(
@@ -28,12 +28,7 @@ class App extends React.Component {
                         items: result,
                         parent: parent
                     });
-                    console.log(result);
-                    console.log(parent);
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -44,16 +39,11 @@ class App extends React.Component {
     }
 
     fetchSub = (id) => {
-        const baseUrl = 'http://127.0.0.1:8000/';
-
         let parent = this.state.items.find((item) => parseInt(id) === item.id);
         this.setState({
             parent: parent
         });
-        // console.log(id);
-        // console.log(parent);
-        let url = baseUrl.concat(id);
-        console.log(url);
+        let url = this.state.baseUrl.concat(id);
         fetch(url)
             .then(res => res.json())
             .then(
@@ -62,11 +52,7 @@ class App extends React.Component {
                         isLoaded: true,
                         items: result
                     });
-                    // console.log(result)
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -77,8 +63,7 @@ class App extends React.Component {
     };
 
     saveCategory = (category) => {
-        console.log(category);
-        let url = this.state.baseUrl.concat("api/category");
+        let url = this.state.baseUrl.concat("category");
         fetch(url, {
             method: "POST",
             headers: {
@@ -93,11 +78,8 @@ class App extends React.Component {
                         isLoaded: true,
                         message: result.message
                     });
-                    // setTimeout(() => location.reload() , 2000);
+                    setTimeout(() => location.reload(), 2000);
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     this.setState({
                         isLoaded: true,

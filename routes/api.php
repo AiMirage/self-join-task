@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('category', 'CategoryController')->except(['create' , 'edit']);
+Route::get('/{id}', 'CategoryController@getChildren');
